@@ -1,7 +1,6 @@
 package stepsdefinitions;
 
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -9,23 +8,22 @@ import cucumber.api.java.en.When;
 import driver.DriverSingleton;
 import org.openqa.selenium.WebDriver;
 import pages.CloudCalculatorPage;
-import pages.CloudPage;
 import pages.CloudStartPage;
 import utils.Form;
 
 import java.util.Map;
+
 import static org.testng.Assert.assertTrue;
 
 public class CloudStepDefs {
 
-    WebDriver driver= DriverSingleton.getDriver();
-    CloudPage page;
+    WebDriver driver = DriverSingleton.getDriver();
+    //Возможно, стоит сделать CloudPage page и от него наслежоваться
     Form inputForm;
     Form estimatedForm;
 
     @Given("I opened Google Cloud Platform Pricing Calculator")
-    public void iOpenedGoogleCloudPlatformPricingCalculator()
-    {
+    public void iOpenedGoogleCloudPlatformPricingCalculator() {
         CloudStartPage page = new CloudStartPage(driver);
         page.open().
                 exploreAllProducts().
@@ -40,7 +38,7 @@ public class CloudStepDefs {
         page.switchToFrame("idIframe");
         page.computeEngine();
 
-        for (Map<String, String> labelValue: dataTable.asMaps(String.class, String.class)
+        for (Map<String, String> labelValue : dataTable.asMaps(String.class, String.class)
         ) {
             page.setInstance(labelValue.get("Number of instance"));
             page.setOperationSystem(labelValue.get("Operation System"));
@@ -70,6 +68,7 @@ public class CloudStepDefs {
     public void inputAndEstimatedDataMatch() {
         CloudCalculatorPage page = new CloudCalculatorPage(driver);
         estimatedForm = page.getEstimatedForm();
+        //Избежать отдельных ассертов для полей
         assertTrue(estimatedForm.getVmClass().toLowerCase().contains(inputForm.getVmClass().toLowerCase()));
         assertTrue(estimatedForm.getInstanceType().toLowerCase().contains(inputForm.getInstanceType().toLowerCase().split(" ")[0]));
         assertTrue(estimatedForm.getLocalSSD().toLowerCase().contains(inputForm.getLocalSSD().toLowerCase()));

@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Form;
@@ -16,7 +17,7 @@ public class CloudCalculatorPage extends CloudPage {
     private String estimatedCostPerMonth;
     @FindBy(id = "idIframe")
     private WebElement iFrame;
-   @FindBy(xpath = "//div[@title='Compute Engine']")
+    @FindBy(xpath = "//div[@title='Compute Engine']")
     private WebElement computeEngineButton;
     @FindBy(name = "quantity")
     private WebElement instancesLabel;
@@ -85,6 +86,7 @@ public class CloudCalculatorPage extends CloudPage {
         wait.until(ExpectedConditions.visibilityOf(selectOSAndSoftwareContainer));
         String XPath = "//div[@id='select_container_59']/md-select-menu/md-content/md-option/div[@class='md-text']";
         selectOption(XPath, operationSystemToBeSelected);
+
     }
 
     public String getOperationSystem() {
@@ -244,10 +246,9 @@ public class CloudCalculatorPage extends CloudPage {
     }
 
     public String getEstimatedCostPerMonth() {
-        if(estimatedCostPerMonth == null || estimatedCostPerMonth.equals(""))
-        {
+        if (estimatedCostPerMonth == null || estimatedCostPerMonth.equals("")) {
             driver.switchTo().frame("idIframe");
-            estimatedCostPerMonth=driver.findElement(By.xpath("//*[@id=\"resultBlock\"]/md-card/md-card-content/div/div/div/h2/b")).getText();
+            estimatedCostPerMonth = driver.findElement(By.xpath("//*[@id=\"resultBlock\"]/md-card/md-card-content/div/div/div/h2/b")).getText();
             driver.switchTo().defaultContent();
         }
         return estimatedCostPerMonth;

@@ -27,6 +27,6 @@ public class CloudPricingPage extends CloudPage {
     public CloudCalculatorPage calculate() {
 
         new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(calculatorButton)).click();
-                return PageFactory.initElements(driver, CloudCalculatorPage.class);
-        }
-        }
+        return PageFactory.initElements(driver, CloudCalculatorPage.class);
+    }
+}
